@@ -2,7 +2,7 @@
 require 'conexion.php';
 session_start();
 
-$correoE = mysqli_real_escape_string($conexion, $_POST['correoE']);
+$correoE = mysqli_real_escape_string($conexion, $_POST['correoE']); 
 $password = mysqli_real_escape_string($conexion, $_POST['password']);
 
 $q = "SELECT * FROM usuario WHERE correoE = '$correoE'";

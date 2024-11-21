@@ -10,8 +10,8 @@ $resultado = $conexion -> query($buscarUsuario);
 $count = mysqli_num_rows($resultado);
 
 if($count > 0){
-    echo "El usuario o correo ya esta registrados.";
-    echo "<a href='../register.php'>Registrarse</a>";
+    header("Location: ../register.php?registro=error");
+    exit();
 }else{
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
@@ -19,7 +19,6 @@ if($count > 0){
     $stmt->bind_param("sss", $nombreUser, $correoE, $hashedPassword);
 
     if($stmt->execute()){
-        echo "<br><h1>Usuario creado con exito :D</h1>";
         header("Location: ../index.php");
         exit();
     }else{

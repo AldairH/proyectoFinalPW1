@@ -1,13 +1,12 @@
-
-CREATE DATABASE IF NOT EXISTS taskmaster CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE taskmaster;
+CREATE DATABASE IF NOT EXISTS gestorDeTareas CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE gestorDeTareas;
 
 
 CREATE TABLE IF NOT EXISTS usuario (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(255) NOT NULL,
+    nomUsuario VARCHAR(255) NOT NULL,
     correoE VARCHAR(255) NOT NULL UNIQUE,
-    contraseña VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS tareas (

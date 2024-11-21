@@ -1,123 +1,45 @@
-<?php
-session_start();
-$correoE= $_SESSION['username'];
-
-if(!isset($correoE)){
-    header("location: ./index.php");
-    exit();
-}
-
-echo "<!DOCTYPE html>
-<html lang='en'>
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>Principal - Tareas</title>
-    <!-- Importar Materialize CSS -->
-    <link href='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css' rel='stylesheet'>
-    <style>
-        /* Estilo para la descripción, permitiendo desplazamiento vertical */
-        .descripcion-tarea {
-            max-width: 200px; /* Limitar ancho de la celda */
-            height: 80px; /* Establecer altura máxima */
-            overflow-y: auto; /* Permitir el desplazamiento vertical */
-            word-wrap: break-word; /* Asegura que el texto se ajuste a la celda */
-        }
-        
-        .estado {
-            width: 150px; /* Ancho fijo para la columna de estado */
-        }
-    </style>
+    <meta charset="UTF-8">
+    <title>Login de Prueba</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="./Styles/style.css">
 </head>
-<body>
-    <div class='container'>
-        <h1> Hola $correoE! :D </h1>
-        <a href='Logica/logout.php' class='btn waves-effect waves-light'>Exit</a>";
+<body class="log">
+<div style="height: 100vh; display: flex; justify-content: center; align-items: center; margin: 0;">
+    <div class="card" style="width: 100%; max-width: 400px;">
+        <div class="card-content">
+            <span class="card-title center-align">Iniciar Sesión</span>
+            <form method="POST" action="./Logica/login.php">
+                <div class="input-field">
+                    <i class="material-icons prefix">email</i>
+                    <input type="email" name="correoE" id="correoE" required>
+                    <label for="correoE">Correo Electrónico</label>
+                </div>
+                <div class="input-field">
+                    <i class="material-icons prefix">lock</i>
+                    <input type="password" name="password" id="password" required>
+                    <label for="password">Contraseña</label>
+                </div>
+                <div class="center">
+                    <button type="submit" class="btn">Iniciar Sesión</button>
+                    <a href="./register.php" class="btn-flat">Registrarse</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-require "./Logica/conexion.php";
-mysqli_set_charset($conexion, 'utf8');
-
-$query = "SELECT id_usuario FROM usuario WHERE correoE='$correoE'";
-$resultado = mysqli_query($conexion,$query);
-
-if($resultado && mysqli_num_rows($resultado) > 0){
-    $fila = mysqli_fetch_assoc($resultado);
-    $id_usuario = $fila['id_usuario'];
-
-    $consulta_sql = "SELECT * FROM tareas WHERE id_usuario = $id_usuario";
-    $resultado_tareas = mysqli_query($conexion, $consulta_sql);
-
-    if($resultado_tareas && mysqli_num_rows($resultado_tareas)>0){
-        echo "<h2>Tareas obtenidas.</h2>";
-        echo "<table class='striped'>
-                <thead>
-                    <tr>
-                        <th>Titulo</th>
-                        <th>Descripcion</th>
-                        <th>Fecha de Vencimiento</th>
-                        <th>Prioridad</th>
-                        <th class='estado'>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>";
-
-        while($row = mysqli_fetch_assoc($resultado_tareas)){
-            echo "<tr>";
-            echo "<td>". $row['titulo'] ."</td>";
-            
-            // Mostrar la descripción completa y con desplazamiento vertical
-            echo "<td class='descripcion-tarea'>". $row['descripcion'] ."</td>";
-
-            echo "<td>". $row['fecha_de_vencimiento'] ."</td>";
-            echo "<td>". $row['prioridad'] ."</td>";
-            
-            echo "<td class='estado'>
-                    <form action='./Logica/updateStatus.php' method='POST'>
-                        <input type='hidden' name='id_tarea' value='" .$row['id_tarea']."'>
-                        <select name='nuevo_estado' onchange='this.form.submit()'>
-                            <option value='Pendiente' ". ($row['estado'] === 'Pendiente' ? "selected" : "").">Pendiente</option>
-                            <option value='En Progreso' ". ($row['estado'] === 'En Progreso' ? "selected" : "").">En Progreso</option>
-                            <option value='Completada' ". ($row['estado'] === 'Completada' ? "selected" : "").">Completada</option>
-                        </select>
-                    </form>
-                </td>";
-                
-            echo "<td><a href='#' onclick='ConfirmarEliminacion(" . $row['id_tarea']. ")' class='btn red'>Delete</a></td>";
-            echo "<td><a href='./editarTarea.php?id_tarea=" . $row['id_tarea'] . "' class='btn blue'>Editar</a></td>";
-            echo "</tr>";
-        }
-        echo "</tbody></table>";
-    }else{
-        echo "<h2>No hay tareas</h2>";
-    }
-}else{
-    echo "<h2>Error ID</h2>";
+<?php
+if (isset($_GET['login']) && $_GET['login'] == 'success') {
+    echo "<div class='alert alert-success' style='background-color: #4caf50; color: white; padding: 10px; border-radius: 5px; text-align: center; margin-top: 20px;'>Login exitoso.</div>";
+} elseif (isset($_GET['login']) && $_GET['login'] == 'error') {
+    echo "<div class='alert alert-danger' style='background-color: #f44336; color: white; padding: 10px; border-radius: 5px; text-align: center; margin-top: 20px;'>Usuario o contraseña incorrectos.</div>";
 }
-echo "<a href='./agregarTarea.php' class='btn green'>Agregar Tarea</a>";
-mysqli_close($conexion);
-
-echo "</div>";
-
 ?>
 
-<script>
-function ConfirmarEliminacion(id) {
-    if (confirm('¿Estás seguro de que deseas eliminar esta tarea?')) {
-        window.location.href = `Logica/deleteTask.php?id=${id}`;
-    }
-}
-</script>
-
-<!-- Importar jQuery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<!-- Importar Materialize JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
-<script>
-    // Inicializar componentes de Materialize (si es necesario)
-    M.AutoInit();
-</script>
-
 </body>
 </html>

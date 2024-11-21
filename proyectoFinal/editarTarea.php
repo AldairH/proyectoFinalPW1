@@ -34,6 +34,9 @@ $conexion->close();
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
+    <?php
+    include "./Includes/header.php";
+    ?>
     <div class="container">
         <h3>Editar Tarea</h3>
         <div class="card">
@@ -41,25 +44,21 @@ $conexion->close();
                 <form action="./Logica/updateTask.php" method="POST">
                     <input type="hidden" name="id_tarea" value="<?= $tarea['id_tarea'] ?>">
 
-                    <!-- Titulo -->
                     <div class="input-field">
                         <label for="titulo">Titulo:</label>
                         <input type="text" name="titulo" id="titulo" value="<?= htmlspecialchars($tarea['titulo']) ?>" required>
                     </div>
 
-                    <!-- Descripcion -->
                     <div class="input-field">
                         <label for="descripcion">Descripcion:</label>
                         <textarea name="descripcion" id="descripcion" class="materialize-textarea" required><?= htmlspecialchars($tarea['descripcion']) ?></textarea>
                     </div>
 
-                    <!-- Fecha de Vencimiento -->
                     <div class="input-field">
                         <label for="fecha_de_vencimiento">Fecha de Vencimiento:</label>
                         <input type="date" name="fecha_de_vencimiento" id="fecha_de_vencimiento" value="<?= $tarea['fecha_de_vencimiento'] ?>">
                     </div>
 
-                    <!-- Prioridad -->
                     <div class="input-field">
                         <select name="prioridad" id="prioridad">
                             <option value="Baja" <?= $tarea['prioridad'] === 'Baja' ? 'selected' : '' ?>>Baja</option>
@@ -69,10 +68,9 @@ $conexion->close();
                         <label for="prioridad">Prioridad</label>
                     </div>
 
-
-                    <!-- Botón de guardar cambios -->
                     <div class="input-field">
                         <button type="submit" class="btn waves-effect waves-light">Guardar Cambios</button>
+                        <a href="./principal.php" class="btn-flat">Cancelar</a>
                     </div>
                 </form>
             </div>
@@ -86,5 +84,8 @@ $conexion->close();
             var instances = M.FormSelect.init(elems);
         });
     </script>
+    <?php
+    include "./Includes/footer.php";
+    ?>
 </body>
 </html>

@@ -1,6 +1,6 @@
 <?php
 if (isset($_GET['registro']) && $_GET['registro'] == 'error') {
-    $mensajeError = "El usuario o correo ya están registrados. Por favor, intenta con otro correo.";
+    $mensajeError = "El correo ya esta registrado. Por favor, intenta con otro correo.";
 }
 ?>
 <!DOCTYPE html>
@@ -62,6 +62,9 @@ if (isset($_GET['registro']) && $_GET['registro'] == 'error') {
             modal.open();
         <?php endif; ?>
     });
+</script>
+<script>
+    M.AutoInit();
 </script>
 </body>
 </html>

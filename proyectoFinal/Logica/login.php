@@ -11,8 +11,8 @@ $consulta = mysqli_query($conexion, $q);
 $array = mysqli_fetch_array($consulta);
 
 if ($array) {
-    $hashedPasswordFromDB = $array['password'];
-    if (password_verify($password, $hashedPasswordFromDB)) {
+    $passwordDB = $array['password'];
+    if (password_verify($password, $passwordDB)) {
         $_SESSION['username'] = $correoE;
         header("location: ../principal.php");
     } else {

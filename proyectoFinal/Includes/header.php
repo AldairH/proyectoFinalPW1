@@ -22,7 +22,7 @@ if ($resultado && mysqli_num_rows($resultado) > 0) {
                 <i class="material-icons">account_circle</i>
                 <?php echo htmlspecialchars($nomUsuario); ?>
             </a>
-            <ul class="right hide-on-med-and-down">
+            <ul class="right hide-on-med-and-down" style="padding-right:40px;">
                 <li><a href="./Logica/logout.php" class="btn waves-effect waves-light">Salir</a></li>
             </ul>
         </div>

@@ -11,14 +11,13 @@ if ($resultado_usuario && mysqli_num_rows($resultado_usuario) > 0) {
     $fila = mysqli_fetch_assoc($resultado_usuario);
     $id_usuario = $fila['id_usuario'];
 } else {
-    echo "Error: Usuario no encontrado.";
+    echo "Error: Usuario no encontrado D:";
     exit();
 }
 
-
 $titulo=mysqli_real_escape_string($conexion, $_POST['titulo']);
 $descripcion=mysqli_real_escape_string($conexion, $_POST['descripcion']);
-$fecha= $_POST['fecha_de_vencimiento'];    
+$fecha= $_POST['fecha_de_vencimiento'];
 $prioridad=mysqli_real_escape_string($conexion, $_POST['prioridad']);
 $estado=mysqli_real_escape_string($conexion, $_POST['estado']);
 

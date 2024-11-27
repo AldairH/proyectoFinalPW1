@@ -26,8 +26,6 @@ mysqli_set_charset($conexion, 'utf8');
 $query = "SELECT id_usuario FROM usuario WHERE correoE='$correoE'";
 $resultado = mysqli_query($conexion,$query);
 
-
-
 if($resultado && mysqli_num_rows($resultado) > 0){
     $fila = mysqli_fetch_assoc($resultado);
     $id_usuario = $fila['id_usuario'];
@@ -65,14 +63,16 @@ if($resultado && mysqli_num_rows($resultado) > 0){
                         </select>
                     </form>
                 </td>";
-                
             echo "<td><a href='#' onclick='ConfirmarEliminacion(" . $row['id_tarea']. ")' class='btn red'>Eliminar</a></td>";
             echo "<td><a href='./editarTarea.php?id_tarea=" . $row['id_tarea'] . "' class='btn blue'>Editar</a></td>";
             echo "</tr>";
         }
         echo "</tbody></table>";
     }else{
-        echo "<h2>No hay tareas</h2>";
+        echo "<div class='no-tasks-message'>
+                <i class='material-icons'>assignment</i>
+                <span>¡No hay tareas por el momento!</span>
+            </div>";
     }
 }else{
     echo "<h2>Error ID</h2>";

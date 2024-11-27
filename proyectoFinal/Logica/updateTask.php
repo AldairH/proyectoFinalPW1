@@ -3,11 +3,6 @@ include "./conexion.php";
 mysqli_set_charset($conexion, 'utf8');
 session_start();
 
-if (!isset($_SESSION['username'])) {
-    header("Location: ../index.php");
-    exit();
-}
-
 $titulo=mysqli_real_escape_string($conexion, $_POST['titulo']);
 $descripcion=mysqli_real_escape_string($conexion, $_POST['descripcion']);
 $fecha= $_POST['fecha_de_vencimiento'];    
